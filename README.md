@@ -1,0 +1,2 @@
+# Skooly
+School management app
