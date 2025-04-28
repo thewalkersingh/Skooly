@@ -6,21 +6,21 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
-@Data
 @Entity
-@Table(name = "teachers", uniqueConstraints = @UniqueConstraint(columnNames = "teacher_code"))
-public class Teacher {
+@Data
+@Table(name = "schoolStaff", uniqueConstraints = @UniqueConstraint(columnNames = "staff_code"))
+public class SchoolStaff {
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Long id;
    
-   @Column(name = "teacher_code", nullable = false, unique = true, length = 20)
-   private String teacherCode;
+   @Column(name = "staff_code", nullable = false, unique = true, length = 20)
+   private String staffCode;
    
-   @Column(name = "first_name", nullable = false, length = 50)
+   @Column(name = "first_name", nullable = false)
    private String firstName;
    
-   @Column(name = "last_name", nullable = false, length = 50)
+   @Column(name = "last_name", nullable = false)
    private String lastName;
    
    @Enumerated(EnumType.STRING)
@@ -46,6 +46,10 @@ public class Teacher {
    @Column
    private Double salary;
    
-   @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL, orphanRemoval = true)
+   @Enumerated(EnumType.STRING)
+   @Column(nullable = false)
+   private Role role;
+   
+   @OneToMany(mappedBy = "schoolStaff", cascade = CascadeType.ALL, orphanRemoval = true)
    private Set<Address> addresses = new HashSet<>();
 }
