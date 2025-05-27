@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/skoolydb
+    driverClassName: org.postgresql.Driver
+    username: root
+    password: admin
+  jpa:
+    hibernate:
+      ddl-auto: update   # You might change this to 'validate' or 'none' in production
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect

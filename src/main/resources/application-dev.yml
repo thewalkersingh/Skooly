@@ -1,0 +1,23 @@
+spring:
+  #  security:
+  #    user:
+  #      name: sa
+  #      password: sa
+  datasource:
+    url: jdbc:h2:mem:skoolydb;DB_CLOSE_DELAY=-1
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+    open-in-view: false
+logging:
+  level:
+    org.hibernate.SQL: debug
