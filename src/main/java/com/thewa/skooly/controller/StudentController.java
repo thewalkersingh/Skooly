@@ -15,7 +15,7 @@ public class StudentController {
 	  this.studentService = studentService;
    }
    
-   @GetMapping
+   @GetMapping("/all")
    public ResponseEntity<Page<StudentDTO>> getAllStudents(Pageable pageable) {
 	  return ResponseEntity.ok(studentService.getAllStudents(pageable));
    }
@@ -30,7 +30,7 @@ public class StudentController {
 	  return ResponseEntity.ok(studentService.getStudentByCode(studentCode));
    }
    
-   @PostMapping
+   @PostMapping("/save")
    public ResponseEntity<StudentDTO> addStudent(@RequestBody StudentDTO studentDTO) {
 	  return ResponseEntity.ok(studentService.saveStudent(studentDTO));
    }

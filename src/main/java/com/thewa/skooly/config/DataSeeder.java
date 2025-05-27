@@ -3,7 +3,6 @@ import com.thewa.skooly.model.*;
 import com.thewa.skooly.repository.SchoolRepository;
 import com.thewa.skooly.repository.StudentRepository;
 import com.thewa.skooly.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -12,19 +11,29 @@ import java.util.List;
 
 @Component
 public class DataSeeder implements CommandLineRunner {
-   PasswordEncoder passwordEncoder;
    private final SchoolRepository schoolRepository;
    private final StudentRepository studentRepository;
    private final UserRepository userRepository;
+   private final PasswordEncoder passwordEncoder;
    
-   public DataSeeder(SchoolRepository schoolRepository, StudentRepository studentRepository, UserRepository userRepository) {
+   public DataSeeder(SchoolRepository schoolRepository, StudentRepository studentRepository, UserRepository userRepository,
+		   PasswordEncoder passwordEncoder) {
 	  this.schoolRepository = schoolRepository;
 	  this.studentRepository = studentRepository;
 	  this.userRepository = userRepository;
+	  this.passwordEncoder = passwordEncoder;
    }
    
    @Override
    public void run(String... args) {
+	  if(userRepository.count() == 0){
+		 List<User> users = List.of(
+				 new User(null, "admin", passwordEncoder.encode("admin123"), Role.ADMIN),
+				 new User(null, "student1", passwordEncoder.encode("student123"), Role.STUDENT));
+		 
+		 userRepository.saveAll(users);
+		 System.out.println("Dummy user data loaded!");
+	  }
 	  if(schoolRepository.count() == 0){ // Prevent duplicate entries
 		 List<School> schools = List.of(
 				 new School(null, "Greenwood High", "123 Oak St", "Mumbai", SchoolType.CBSE, null),
@@ -51,15 +60,6 @@ public class DataSeeder implements CommandLineRunner {
 										 );
 		 studentRepository.saveAll(students);
 		 System.out.println("Dummy student data loaded!");
-	  }
-	  if(userRepository.count() == 0){
-		 List<User> users = List.of(
-				 new User(null, "admin", passwordEncoder.encode("admin123"), Role.ADMIN),
-				 new User(null, "student1", passwordEncoder.encode("student123"), Role.STUDENT)
-								   );
-		 
-		 userRepository.saveAll(users);
-		 System.out.println("Dummy user data loaded!");
 	  }
    }
 }
